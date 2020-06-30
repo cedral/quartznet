@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp2.1</TargetFrameworks>
     <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -2,7 +2,7 @@
 
 [http://www.quartz-scheduler.net](http://www.quartz-scheduler.net)
 
-## Release 3.1.0, xx xx 2020
+## Release 3.0.8, xx xx 2020
 
 This release concentrates on performance and some small feature updates. A big change is that now SQL queries use
 parametrized scheduler name, which allows database server to reuse query plans and use indexes more optimally.
@@ -10,9 +10,11 @@ This will help especially clusters which have large number of nodes.
 
 There are also some minor bug fixes present.
 
-* NEW FEATURE
+* BREAKING CHANGES
+	* Updated .Net to 4.6
 
-    * Introduced a config parameter `ClusterCheckinMisfireThreshold` (#692)
+* NEW FEATURE
+	* Introduced a config parameter `ClusterCheckinMisfireThreshold` (#692)
 	* Giving meaningful names to examples folders (#701)
 	* Added search patterns/sub directory search to directoty scanner job (#411, #708)
 	* Fluent interface for scheduler configuration (#791)
@@ -20,10 +22,11 @@ There are also some minor bug fixes present.
 	* Enable SQLite job store provider for NetStandard (#802)
 	* Add configurable params for StdRowLockSemaphore for Failure obtaining db row lock
 	* SchedName added to queries as sql paramteter (#818)
+	* Server, example and test projects upgraded to user .NET Core 3.1
+	* Nullable reference type annotations have been enabled
 
 * FIXES
-
-    * Allow binary serialization for DirectoryScanJob data (#658)
+	* Allow binary serialization for DirectoryScanJob data (#658)
 	* LibLog - Fixed NLog + Log4net callsite. Added support for NLog structured logging. Optimized Log4net-logger (#705)
 	* Upgrade LibLog to latest version (#749)
 	* RAMJobStore performance improvements (#718, #719, #720)
