@@ -41,6 +41,11 @@
     <TargetFullFrameworkVersion>net46</TargetFullFrameworkVersion>
 
     <IsTestProject>$(MSBuildProjectName.Contains('Tests'))</IsTestProject>
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(IsTestProject) == false and ('$(APPVEYOR)' == 'true' or '$(APPVEYOR)' == 'True')">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false'">
