@@ -86,3 +86,6 @@ node_modules
 /tools/psake
 /tools/NUnit*
 /artifacts
+
+docs/.vuepress/dist
+/node_modules
