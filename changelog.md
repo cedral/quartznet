@@ -4,11 +4,7 @@
 
 ## Release 3.0.8, xx xx 2020
 
-This release concentrates on performance and some small feature updates. A big change is that now SQL queries use
-parametrized scheduler name, which allows database server to reuse query plans and use indexes more optimally.
-This will help especially clusters which have large number of nodes.
-
-There are also some minor bug fixes present.
+This release concentrates on minimizing dependency changes while incorporating as much of Release 3.1 as possible. We also use .net 4.6 instead of 4.6.1 which maintains compatibility with Server 2008.
 
 * BREAKING CHANGES
 	* Updated .Net to 4.6
@@ -28,6 +24,7 @@ There are also some minor bug fixes present.
 	* SQL Server indexes have been fine-tuned, redudancies were removed and you can follow the current scripts to update to latest version of them
 
 * FIXES
+    * Fix potential scheduler deadlock caused by changed lock request id inside ExecuteInNonManagedTXLock (#794)
 	* Allow binary serialization for DirectoryScanJob data (#658)
 	* LibLog - Fixed NLog + Log4net callsite. Added support for NLog structured logging. Optimized Log4net-logger (#705)
 	* Upgrade LibLog to latest version (#749)
