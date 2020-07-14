@@ -30,6 +30,7 @@ This release concentrates on minimizing dependency changes while incorporating a
 	* Fix potential scheduler deadlock caused by changed lock request id inside ExecuteInNonManagedTXLock (#794)
 	* JobDataMap with enum values persisted as JSON can now be set back to job members via PropertySettingJobFactory (#770)  
 	* Ensure GetScheduleBuilder for triggers respects IgnoreMisfirePolicy (#750)  
+	* Remove cron expression validation from XML schema and rely on CronExpression itself (#729)  
 	* Allow binary serialization for DirectoryScanJob data (#658)
 	* LibLog - Fixed NLog + Log4net callsite. Added support for NLog structured logging. Optimized Log4net-logger (#705)
 	* Upgrade LibLog to latest version (#749)
