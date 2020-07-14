@@ -27,6 +27,7 @@ This release concentrates on minimizing dependency changes while incorporating a
 
 * FIXES
 
+	* Remove internal dependencies from examples (#742)
 	* Fix potential scheduler deadlock caused by changed lock request id inside ExecuteInNonManagedTXLock (#794)
 	* JobDataMap with enum values persisted as JSON can now be set back to job members via PropertySettingJobFactory (#770)  
 	* Ensure GetScheduleBuilder for triggers respects IgnoreMisfirePolicy (#750)  
