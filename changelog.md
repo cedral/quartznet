@@ -25,6 +25,8 @@ This release concentrates on minimizing dependency changes while incorporating a
 
 * FIXES
     * Fix potential scheduler deadlock caused by changed lock request id inside ExecuteInNonManagedTXLock (#794)
+    * Ensure NuGet.exe is part of produced zip to ensure build works (#881)
+    * JobDataMap with enum values persisted as JSON can now be set back to job members via PropertySettingJobFactory (#770)  
 	* Allow binary serialization for DirectoryScanJob data (#658)
 	* LibLog - Fixed NLog + Log4net callsite. Added support for NLog structured logging. Optimized Log4net-logger (#705)
 	* Upgrade LibLog to latest version (#749)
