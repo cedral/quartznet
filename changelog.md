@@ -7,9 +7,11 @@
 This release concentrates on minimizing dependency changes while incorporating as much of Release 3.1 as possible. We also use .net 4.6 instead of 4.6.1 which maintains compatibility with Server 2008.
 
 * BREAKING CHANGES
+
 	* Updated .Net to 4.6
 
 * NEW FEATURE
+
 	* Introduced a config parameter `ClusterCheckinMisfireThreshold` (#692)
 	* Giving meaningful names to examples folders (#701)
 	* Added search patterns/sub directory search to directoty scanner job (#411, #708)
@@ -24,9 +26,10 @@ This release concentrates on minimizing dependency changes while incorporating a
 	* SQL Server indexes have been fine-tuned, redudancies were removed and you can follow the current scripts to update to latest version of them
 
 * FIXES
-    * Fix potential scheduler deadlock caused by changed lock request id inside ExecuteInNonManagedTXLock (#794)
-    * Ensure NuGet.exe is part of produced zip to ensure build works (#881)
-    * JobDataMap with enum values persisted as JSON can now be set back to job members via PropertySettingJobFactory (#770)  
+
+	* Fix potential scheduler deadlock caused by changed lock request id inside ExecuteInNonManagedTXLock (#794)
+	* JobDataMap with enum values persisted as JSON can now be set back to job members via PropertySettingJobFactory (#770)  
+	* Ensure GetScheduleBuilder for triggers respects IgnoreMisfirePolicy (#750)  
 	* Allow binary serialization for DirectoryScanJob data (#658)
 	* LibLog - Fixed NLog + Log4net callsite. Added support for NLog structured logging. Optimized Log4net-logger (#705)
 	* Upgrade LibLog to latest version (#749)
