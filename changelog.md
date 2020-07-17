@@ -24,6 +24,7 @@ This release concentrates on minimizing dependency changes while incorporating a
 	* Nullable reference type annotations have been enabled
 	* Symbols are now provided as a separate NuGet symbol package (snupkg)
 	* SQL Server indexes have been fine-tuned, redudancies were removed and you can follow the current scripts to update to latest version of them
+	* Upgrade MySqlConnector to 1.0 (namespace has changed) (#890)
 
 * FIXES
 
