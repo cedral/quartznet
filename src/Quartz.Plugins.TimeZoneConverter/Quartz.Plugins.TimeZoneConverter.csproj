@@ -8,6 +8,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Authors>Sean Farrow</Authors>
     <Nullable>enable</Nullable>
+    <Authors>Sean Farrow, Quartz.NET</Authors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs" />
