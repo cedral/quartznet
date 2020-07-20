@@ -4,8 +4,6 @@
 
 ## Release 3.0.8, xx xx 2020
 
-This release concentrates on minimizing dependency changes while incorporating as much of Release 3.1 as possible. We also use .net 4.6 instead of 4.6.1 which maintains compatibility with Server 2008.
-
 * BREAKING CHANGES
 
 	* Updated .Net to 4.6
@@ -29,6 +27,7 @@ This release concentrates on minimizing dependency changes while incorporating a
 * FIXES
 
 	* Remove internal dependencies from examples (#742)
+	* Properly assign MaxConcurrency in CreateVolatileScheduler (#726) 
 	* Fix potential scheduler deadlock caused by changed lock request id inside ExecuteInNonManagedTXLock (#794)
 	* JobDataMap with enum values persisted as JSON can now be set back to job members via PropertySettingJobFactory (#770)  
 	* Ensure GetScheduleBuilder for triggers respects IgnoreMisfirePolicy (#750)  
