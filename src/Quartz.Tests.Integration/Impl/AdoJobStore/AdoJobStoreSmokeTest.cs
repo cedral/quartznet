@@ -94,6 +94,8 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
         {
             NameValueCollection properties = new NameValueCollection();
             properties["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlCeDelegate).AssemblyQualifiedNameWithoutVersion();
+            properties["quartz.jobStore.lockHandler.type"] = typeof(Quartz.Impl.AdoJobStore.UpdateLockRowSemaphore).AssemblyQualifiedNameWithoutVersion();
+
             return RunAdoJobStoreTest("SqlServerCe", "SQLServerCe", serializerType, properties);
         }
 
@@ -205,26 +207,47 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
             NameValueCollection extraProperties,
             bool clustered = true)
         {
-            var builder = SchedulerBuilder.Create("instance_one", "TestScheduler")
-                .WithDefaultThreadPool(x => x.WithThreadCount(10))
-                .WithMisfireThreshold(TimeSpan.FromSeconds(60))
-                .UsePersistentStore(store =>
-                {
-                    var x = store
-                        .UseProperties(false)
-                        .Clustered(clustered, options => options.WithCheckinInterval(TimeSpan.FromMilliseconds(1000)))
-                        .UseGenericDatabase(dbProvider, db => db.WithConnectionString(dbConnectionStrings[connectionStringId]));
+            var config = SchedulerBuilder.Create("instance_one", "TestScheduler");
+            config.UseDefaultThreadPool(x =>
+            {
+                x.MaxConcurrency = 10;
+            });
+            config.MisfireThreshold = TimeSpan.FromSeconds(60);
 
-                    x = serializerType == "json"
-                        ? x.WithJsonSerializer()
-                        : x.WithBinarySerializer();
-                });
+            config.UsePersistentStore(store =>
+            {
+                store.UseProperties = false;
+
+                if (clustered)
+                {
+                    store.UseClustering(c =>
+                    {
+                        c.CheckinInterval = TimeSpan.FromMilliseconds(1000);
+                    });
+                }
+
+                store.UseGenericDatabase(dbProvider, db =>
+                    db.ConnectionString = dbConnectionStrings[connectionStringId]
+                );
+
+                if (serializerType == "json")
+                {
+                    store.UseJsonSerializer(j =>
+                    {
+                        j.AddCalendarSerializer<CustomCalendar>(new CustomCalendarSerializer());
+                    });
+                }
+                else
+                {
+                    store.UseBinarySerializer();
+                }
+            });
 
             if (extraProperties != null)
             {
                 foreach (string key in extraProperties.Keys)
                 {
-                    builder.SetProperty(key, extraProperties[key]);
+                    config.SetProperty(key, extraProperties[key]);
                 }
             }
 
@@ -232,7 +255,7 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
             FailFastLoggerFactoryAdapter.Errors.Clear();
 
             // First we must get a reference to a scheduler
-            IScheduler sched = await builder.Build();
+            IScheduler sched = await config.BuildScheduler();
             SmokeTestPerformer performer = new SmokeTestPerformer();
             await performer.Test(sched, clearJobs, scheduleJobs);
 
@@ -497,19 +520,19 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
 
                 string schedId = sched.SchedulerInstanceId;
 
-                JobDetailImpl job = new JobDetailImpl("job_to_use", schedId, typeof(SimpleRecoveryJob));
-
                 for (int i = 0; i < 100000; ++i)
                 {
-                    IOperableTrigger trigger = new SimpleTriggerImpl("stressing_simple", SimpleTriggerImpl.RepeatIndefinitely, TimeSpan.FromSeconds(1));
+                    IOperableTrigger trigger = new SimpleTriggerImpl("stressing_simple" + i.ToString(), schedId, SimpleTriggerImpl.RepeatIndefinitely, TimeSpan.FromSeconds(1));
                     trigger.StartTimeUtc = DateTime.Now.AddMilliseconds(i);
+                    JobDetailImpl job = new JobDetailImpl("simple_job" + i, schedId, typeof(SimpleRecoveryJob));
                     await sched.ScheduleJob(job, trigger);
                 }
 
                 for (int i = 0; i < 100000; ++i)
                 {
-                    IOperableTrigger ct = new CronTriggerImpl("stressing_cron", "0/1 * * * * ?");
+                    IOperableTrigger ct = new CronTriggerImpl("stressing_cron" + i, schedId, "0/1 * * * * ?");
                     ct.StartTimeUtc = DateTime.Now.AddMilliseconds(i);
+                    JobDetailImpl job = new JobDetailImpl("cron_job" + i, schedId, typeof(SimpleRecoveryJob));
                     await sched.ScheduleJob(job, ct);
                 }
 

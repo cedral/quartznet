@@ -115,7 +115,7 @@ namespace Quartz.Impl
 		public virtual void CreateVolatileScheduler(int maxConcurrency)
 		{
 			var threadPool = new DefaultThreadPool();
-			threadPool.MaxConcurency = maxConcurrency;
+			threadPool.MaxConcurrency = maxConcurrency;
 			threadPool.Initialize();
 			IJobStore jobStore = new RAMJobStore();
 			CreateScheduler(threadPool, jobStore);

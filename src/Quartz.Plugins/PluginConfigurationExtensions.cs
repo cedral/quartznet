@@ -7,45 +7,41 @@ namespace Quartz
 {
     public static class PluginConfigurationExtensions
     {
-        public static SchedulerBuilder UseXmlSchedulingConfiguration(
-            this SchedulerBuilder schedulerBuilder,
-            Action<XmlSchedulingOptions> configure)
+        public static T UseXmlSchedulingConfiguration<T>(
+            this T configurer,
+            Action<XmlSchedulingOptions> configure) where T : IPropertyConfigurer
         {
-            schedulerBuilder.SetProperty("quartz.plugin.xml.type", typeof(XMLSchedulingDataProcessorPlugin).AssemblyQualifiedNameWithoutVersion());
-            configure.Invoke(new XmlSchedulingOptions(schedulerBuilder));
-            return schedulerBuilder;
+            configurer.SetProperty("quartz.plugin.xml.type", typeof(XMLSchedulingDataProcessorPlugin).AssemblyQualifiedNameWithoutVersion());
+            configure.Invoke(new XmlSchedulingOptions(configurer));
+            return configurer;
         }
 
     }
 
     public class XmlSchedulingOptions : PropertiesHolder
     {
-        public XmlSchedulingOptions(PropertiesHolder parent) : base(parent)
+        internal XmlSchedulingOptions(IPropertyConfigurer parent) : base(parent, "quartz.plugin.xml")
         {
         }
 
-        public XmlSchedulingOptions WithFiles(params string[] fileNames)
+        public string[] Files
         {
-            SetProperty("quartz.plugin.xml.fileNames", string.Join(",", fileNames));
-            return this;
+            set => SetProperty("fileNames", string.Join(",", value));
         }
 
-        public XmlSchedulingOptions FailOnFileNotFound(bool fail = true)
+        public bool FailOnFileNotFound
         {
-            SetProperty("quartz.plugin.xml.failOnFileNotFound", fail.ToString().ToLowerInvariant());
-            return this;
+            set => SetProperty("failOnFileNotFound", value.ToString().ToLowerInvariant());
         }
 
-        public XmlSchedulingOptions FailOnSchedulingError(bool fail = true)
+        public bool FailOnSchedulingError
         {
-            SetProperty("quartz.plugin.xml.failOnSchedulingError", fail.ToString().ToLowerInvariant());
-            return this;
+            set => SetProperty("failOnSchedulingError", value.ToString().ToLowerInvariant());
         }
 
-        public XmlSchedulingOptions WithChangeDetection(TimeSpan interval)
+        public TimeSpan ScanInterval
         {
-            SetProperty("quartz.plugin.xml.scanInterval", ((int) interval.TotalSeconds).ToString());
-            return this;
+            set => SetProperty("scanInterval", ((int) value.TotalSeconds).ToString());
         }
     }
 }

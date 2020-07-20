@@ -15,125 +15,116 @@ namespace Quartz.Tests.Unit
         [Test]
         public void TestRamJobStore()
         {
-            var builder = SchedulerBuilder.Create()
-                .UseMemoryStore()
-                .WithDefaultThreadPool(x =>
-                    x.WithThreadCount(100)
-                );
+            var config = SchedulerBuilder.Create();
+            config.UseInMemoryStore();
+            config.UseDefaultThreadPool(x => x.MaxConcurrency = 100);
 
-            Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(RAMJobStore).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.threadPool.threadCount"], Is.EqualTo("100"));
+            Assert.That(config.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(RAMJobStore).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.threadPool.maxConcurrency"], Is.EqualTo("100"));
         }
 
         [Test]
         public void TestSqlServerJobStore()
         {
-            var builder = SchedulerBuilder.Create()
-                .UsePersistentStore(persistence =>
-                    persistence
-                        .WithJsonSerializer()
-                        .Clustered(cluster => cluster
-                            .WithCheckinInterval(TimeSpan.FromSeconds(10))
-                            .WithCheckinMisfireThreshold(TimeSpan.FromSeconds(15))
-                        )
-                        .UseSqlServer(db =>
-                            db.WithConnectionString("Server=localhost;Database=quartznet;")
-                        )
-                        .WithTablePrefix("QRTZ2019_")
-                );
-            Assert.That(builder.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
+            var config = SchedulerBuilder.Create();
+            config.UsePersistentStore(js =>
+            {
+                js.UseJsonSerializer();
+                js.RetryInterval = TimeSpan.FromSeconds(20);
+                js.UseClustering(c =>
+                {
+                    c.CheckinInterval = TimeSpan.FromSeconds(10);
+                    c.CheckinMisfireThreshold = TimeSpan.FromSeconds(15);
+                });
 
-            Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(SqlServerDelegate).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
-            Assert.That(builder.Properties["quartz.jobStore.tablePrefix"], Is.EqualTo("QRTZ2019_"));
-            Assert.That(builder.Properties["quartz.jobStore.clusterCheckinInterval"], Is.EqualTo("10000"));
-            Assert.That(builder.Properties["quartz.jobStore.clusterCheckinMisfireThreshold"], Is.EqualTo("15000"));
+                js.UseSqlServer(db =>
+                {
+                    db.ConnectionString = "Server=localhost;Database=quartznet;";
+                    db.TablePrefix = "QRTZ2019_";
+                });
+            });
+            Assert.That(config.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
+
+            Assert.That(config.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(SqlServerDelegate).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
+            Assert.That(config.Properties["quartz.jobStore.tablePrefix"], Is.EqualTo("QRTZ2019_"));
+            Assert.That(config.Properties["quartz.jobStore.clusterCheckinInterval"], Is.EqualTo("10000"));
+            Assert.That(config.Properties["quartz.jobStore.clusterCheckinMisfireThreshold"], Is.EqualTo("15000"));
+            Assert.That(config.Properties["quartz.jobStore.dbRetryInterval"], Is.EqualTo("20000"));
         }
 
         [Test]
         public void TestPostgresJobStore()
         {
-            var builder = SchedulerBuilder.Create()
-                .UsePersistentStore(persistence =>
-                    persistence
-                        .UsePostgres(db =>
-                            db.WithConnectionString("Server=localhost;Database=quartznet;")
-                        )
+            var config = SchedulerBuilder.Create();
+            config
+                .UsePersistentStore(s =>
+                    s.UsePostgres(("Server=localhost;Database=quartznet;"))
                 );
-            Assert.That(builder.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
+            Assert.That(config.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
 
-            Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(PostgreSQLDelegate).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
+            Assert.That(config.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(PostgreSQLDelegate).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
         }
 
         [Test]
         public void TestMySqlJobStore()
         {
-            var builder = SchedulerBuilder.Create()
-                .UsePersistentStore(persistence =>
-                    persistence
-                        .UseMySql(db =>
-                            db.WithConnectionString("Server=localhost;Database=quartznet;")
-                        )
+            var config = SchedulerBuilder.Create();
+            config
+                .UsePersistentStore(s =>
+                    s.UseMySql("Server=localhost;Database=quartznet;")
                 );
-            Assert.That(builder.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
+            Assert.That(config.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
 
-            Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(MySQLDelegate).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
+            Assert.That(config.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(MySQLDelegate).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
         }
 
         [Test]
         public void TestFirebirdJobStore()
         {
-            var builder = SchedulerBuilder.Create()
-                .UsePersistentStore(persistence =>
-                    persistence
-                        .UseFirebird(db =>
-                            db.WithConnectionString("Server=localhost;Database=quartznet;")
-                        )
+            var config = SchedulerBuilder.Create();
+            config
+                .UsePersistentStore(p =>
+                    p.UseFirebird("Server=localhost;Database=quartznet;")
                 );
-            Assert.That(builder.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
+            Assert.That(config.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
 
-            Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(FirebirdDelegate).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
+            Assert.That(config.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(FirebirdDelegate).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
         }
 
         [Test]
         public void TestOracleJsobStore()
         {
-            var builder = SchedulerBuilder.Create()
-                .UsePersistentStore(persistence =>
-                    persistence
-                        .UseOracle(db =>
-                            db.WithConnectionString("Server=localhost;Database=quartznet;")
-                        )
-                );
-            Assert.That(builder.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
+            var config = SchedulerBuilder.Create();
+            config.UsePersistentStore(s =>
+                s.UseOracle("Server=localhost;Database=quartznet;")
+            );
+            Assert.That(config.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
 
-            Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(OracleDelegate).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
+            Assert.That(config.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(OracleDelegate).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
             
         }
         [Test]
         public void TestSQLiteJsobStore()
         {
-            var builder = SchedulerBuilder.Create()
-                .UsePersistentStore(persistence =>
-                    persistence
-                        .UseSQLite(db =>
-                            db.WithConnectionString("Server=localhost;Database=quartznet;")
-                        )
-                );
-            Assert.That(builder.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
+            var config = SchedulerBuilder.Create();
+            config.UsePersistentStore(options =>
+                options.UseSQLite("Server=localhost;Database=quartznet;")
+            );
+            Assert.That(config.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
 
-            Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(SQLiteDelegate).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
+            Assert.That(config.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(SQLiteDelegate).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(config.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
         }
 
         [Test]
@@ -149,12 +140,13 @@ namespace Quartz.Tests.Unit
         public void TestXmlSchedulingPlugin()
         {
             var builder = SchedulerBuilder.Create()
-                .UseXmlSchedulingConfiguration(x => x
-                    .WithFiles("jobs.xml", "jobs2.xml")
-                    .WithChangeDetection(TimeSpan.FromSeconds(2))
-                    .FailOnFileNotFound()
-                    .FailOnSchedulingError()
-                );
+                .UseXmlSchedulingConfiguration(x =>
+                {
+                    x.Files = new[] {"jobs.xml", "jobs2.xml"};
+                    x.ScanInterval = TimeSpan.FromSeconds(2);
+                    x.FailOnFileNotFound = true;
+                    x.FailOnSchedulingError = true;
+                });
 
             Assert.That(builder.Properties["quartz.plugin.xml.type"], Is.EqualTo(typeof(XMLSchedulingDataProcessorPlugin).AssemblyQualifiedNameWithoutVersion()));
             Assert.That(builder.Properties["quartz.plugin.xml.fileNames"], Is.EqualTo("jobs.xml,jobs2.xml"));

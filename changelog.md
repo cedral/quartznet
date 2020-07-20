@@ -2,7 +2,8 @@
 
 [http://www.quartz-scheduler.net](http://www.quartz-scheduler.net)
 
-## Release 3.0.8, Aug 12 2020
+## Release 3.0.8, Aug 26 2020
+This release concentrates on incorporating as much of quartznet 3.1 as possible without relying on .netstandard20 dependencies so that we can keep the .Net at 4.6 and thus keep compatibility with server 2008. It also added SqlCe support back in for compatibility with existing installations.
 
 * BREAKING CHANGES
 
@@ -24,6 +25,7 @@
 	* SQL Server indexes have been fine-tuned, redudancies were removed and you can follow the current scripts to update to latest version of them
 	* Upgrade MySqlConnector to 1.0 (namespace has changed) (#890)
 	* Added SQL Server CE 4.0 support back in
+	* Use Microsoft.Data.SqlClient as SQL Server connection library (#839)
 
 * FIXES
 
