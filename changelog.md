@@ -25,6 +25,7 @@ There are also some minor bug fixes present.
 	* Server, example and test projects upgraded to user .NET Core 3.1
 	* Nullable reference type annotations have been enabled
 	* Symbols are now provided as a separate NuGet symbol package (snupkg)
+	* SQL Server indexes have been fine-tuned, redudancies were removed and you can follow the current scripts to update to latest version of them
 
 * FIXES
 	* Allow binary serialization for DirectoryScanJob data (#658)
