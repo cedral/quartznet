@@ -11,7 +11,7 @@
 
 ## Introduction
 
-This is the README file for Quartz.NET, .NET port of Java Quartz. It supports .NET Core/netstandard 2.0 and .NET Framework 4.6.1 and later.
+This is the README file for 3.0.x Quartz.NET, .NET port of Java Quartz. It supports .NET Core/netstandard 2.0 and .NET Framework 4.6 and later.
 
 Quartz.NET is an opensource project aimed at creating a free-for-commercial use Job Scheduler, with enterprise features.
 

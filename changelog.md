@@ -2,7 +2,7 @@
 
 [http://www.quartz-scheduler.net](http://www.quartz-scheduler.net)
 
-## Release 3.0.8, xx xx 2020
+## Release 3.0.8, Aug 12 2020
 
 * BREAKING CHANGES
 
