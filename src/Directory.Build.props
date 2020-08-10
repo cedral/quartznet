@@ -4,13 +4,13 @@
 
     <OutputPath>..\..\build\$(Configuration)\$(MSBuildProjectName)</OutputPath>
 
-	<Title>Quartz.NET</Title>
-    <Product>Quartz.NET</Product>
-    <Description>Quartz Scheduling Framework for .NET</Description>
-    <Copyright>Copyright Marko Lahma</Copyright>
+    <Title>Quartz.NET46</Title>
+    <Product>Quartz.NET46</Product>
+    <Description>Quartz Scheduling Framework for .NET46</Description>
+    <Copyright>Copyright Marko Lahma, Joseph Southwell</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
 
-    <Authors>Marko Lahma, Quartz.NET</Authors>
+    <Authors>Marko Lahma, Quartz.NET, Joseph Southwell</Authors>
     <WarningsAsErrors>True</WarningsAsErrors>
 
     <AssemblyOriginatorKeyFile>../../quartz.net.snk</AssemblyOriginatorKeyFile>
@@ -20,8 +20,8 @@
     <PackageIcon>quartz-logo-small.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/quartznet/quartznet/master/src/quartz-logo-small.png</PackageIconUrl>
     <PackageTags>scheduling;tasks;jobs;triggers;scheduler;threading</PackageTags>
-    <PackageProjectUrl>https://www.quartz-scheduler.net/</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/quartznet/quartznet/releases</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/cedral/quartznet/tree/3.0.x</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/cedral/quartznet/releases</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
