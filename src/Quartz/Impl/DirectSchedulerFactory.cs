@@ -114,10 +114,8 @@ namespace Quartz.Impl
 		/// <param name="maxConcurrency">The number of allowed concurrent running tasks.</param>
 		public virtual void CreateVolatileScheduler(int maxConcurrency)
 		{
-			var threadPool = new DefaultThreadPool
-			{
-				MaxConcurrency = maxConcurrency
-			};
+			var threadPool = new DefaultThreadPool();
+			threadPool.MaxConcurency = maxConcurrency;
 			threadPool.Initialize();
 			IJobStore jobStore = new RAMJobStore();
 			CreateScheduler(threadPool, jobStore);
