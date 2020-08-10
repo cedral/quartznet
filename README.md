@@ -4,7 +4,7 @@ The original can be found here [http://www.quartz-scheduler.net/](http://www.qua
 
 ## Introduction
 
-This is the README file for my custom 3.0.x version of Quartz.NET. The purpose of this fork is to keep .net 4.6 comapitibility for server 2008 and avoid the additional netstandard2.0 dependencies and related remappings required for quarts 3.1. The fixes for 3.1 that didn't add dependencies were cherry-picked for this releaese. unit tests are passing.
+This is the README file for my custom 3.0.x version of Quartz.NET. The purpose of this fork is to keep .net 4.6 comapitibility for server 2008 and avoid the additional netstandard2.0 dependencies and related remappings required for quarts 3.1. The fixes for 3.1 that didn't add dependencies were cherry-picked for this releaese. unit tests are passing. This version only supports full framework version 4.6 or later. If you want netstandard support use the original as it is better suited to that (That is what caused this fork).
 
 ## Installation
 

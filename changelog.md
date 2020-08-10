@@ -6,7 +6,7 @@
 
 * BREAKING CHANGES
 
-	* Updated .Net to 4.6
+	* Updated .Net Full Framework to 4.6, dropped .netstandard support
 
 * NEW FEATURE
 
