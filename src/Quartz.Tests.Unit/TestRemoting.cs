@@ -48,6 +48,9 @@ namespace Quartz.Tests.Unit
             await remoteScheduler.ScheduleJob(job, trigger);
             await remoteScheduler.Start();
 
+            //can't remote to a scheduler defined int he local app domains scheduler repository
+            SchedulerRepository.Instance.Remove(remoteScheduler.SchedulerName);
+
             var remotingFactory = new StdSchedulerFactory(new NameValueCollection
             {
                 ["quartz.scheduler.instanceName"] = "remoted scheduler",
