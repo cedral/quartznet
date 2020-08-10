@@ -1,24 +1,14 @@
-[![Downloads](https://img.shields.io/nuget/dt/Quartz)]
-[![Build status](https://ci.appveyor.com/api/projects/status/d9ahvu9u77qjhx9r/branch/master?svg=true)](https://ci.appveyor.com/project/lahma/quartznet-6fcn8/branch/master)
-[![NuGet](http://img.shields.io/nuget/v/Quartz.svg)](https://www.nuget.org/packages/Quartz/)
-[![NuGet pre-release](http://img.shields.io/nuget/vpre/Quartz.svg)](https://www.nuget.org/packages/Quartz/)
-[![MyGet pre-release](https://img.shields.io/myget/quartznet/vpre/Quartz)]
-[![Join the chat at https://gitter.im/quartznet/quartznet](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/quartznet/quartznet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 # Quartz.NET - Job Scheduler for the .NET Platform
 
-[http://www.quartz-scheduler.net/](http://www.quartz-scheduler.net/)
+The original can be found here [http://www.quartz-scheduler.net/](http://www.quartz-scheduler.net/)
 
 ## Introduction
 
-This is the README file for 3.0.x Quartz.NET, .NET port of Java Quartz. It supports .NET Core/netstandard 2.0 and .NET Framework 4.6 and later.
-
-Quartz.NET is an opensource project aimed at creating a free-for-commercial use Job Scheduler, with enterprise features.
+This is the README file for my custom 3.0.x version of Quartz.NET. The purpose of this fork is to keep .net 4.6 comapitibility for server 2008 and avoid the additional netstandard2.0 dependencies and related remappings required for quarts 3.1. The fixes for 3.1 that didn't add dependencies were cherry-picked for this releaese. unit tests are passing.
 
 ## Installation
 
-* Stable builds from NuGet: https://www.nuget.org/packages?q=id%3AQuartz+owner%3Alahma
-* Pre-release builds from MyGet feed: https://www.myget.org/F/quartznet/api/v3/index.json
+* Stable builds from NuGet: https://www.nuget.org/packages?q=id%3Asouthwell
 
 ## Building
 
