@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyTitle>Quartz.NET TimeZoneConverter integration</AssemblyTitle>
+    <AssemblyTitle>Quartz.NET46 TimeZoneConverter integration</AssemblyTitle>
     <TargetFrameworks>$(TargetFullFrameworkVersion)</TargetFrameworks>
     <RootNamespace>Quartz</RootNamespace>
-    <Title>Quartz.NET TimeZoneConverter integration</Title>
-    <Description>Quartz.NET TimeZoneConverter integration https://github.com/mj1856/TimeZoneConverter</Description>
+    <Title>Quartz.NET46 TimeZoneConverter integration</Title>
+    <Description>Quartz.NET46 TimeZoneConverter integration https://github.com/mj1856/TimeZoneConverter</Description>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Authors>Sean Farrow</Authors>
     <Nullable>enable</Nullable>
     <Authors>Sean Farrow, Quartz.NET</Authors>
+    <PackageId>Quartz46.Plugins.TimeZoneConverter</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs" />

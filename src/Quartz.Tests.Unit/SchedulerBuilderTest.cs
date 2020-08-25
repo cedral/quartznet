@@ -44,7 +44,7 @@ namespace Quartz.Tests.Unit
             Assert.That(builder.Properties["quartz.dataSource.default.connectionString"], Is.EqualTo("Server=localhost;Database=quartznet;"));
 
             Assert.That(builder.Properties["quartz.jobStore.type"], Is.EqualTo(typeof(JobStoreTX).AssemblyQualifiedNameWithoutVersion()));
-            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(SqlServerDelegate).AssemblyQualifiedNameWithoutVersion()));
+            Assert.That(builder.Properties["quartz.jobStore.driverDelegateType"], Is.EqualTo(typeof(SqlCeDelegate).AssemblyQualifiedNameWithoutVersion()));
             Assert.That(builder.Properties["quartz.jobStore.dataSource"], Is.EqualTo("default"));
             Assert.That(builder.Properties["quartz.jobStore.tablePrefix"], Is.EqualTo("QRTZ2019_"));
             Assert.That(builder.Properties["quartz.jobStore.clusterCheckinInterval"], Is.EqualTo("10000"));

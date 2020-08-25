@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyTitle>Quartz.NET JSON Serialization</AssemblyTitle>
+    <AssemblyTitle>Quartz.NET46 JSON Serialization</AssemblyTitle>
     <RootNamespace>Quartz</RootNamespace>
-	<Title>Quartz.NET JSON Serialization</Title>
-    <Description>Quartz.NET JSON Serialization Support</Description>
+	<Title>Quartz.NET46 JSON Serialization</Title>
+    <Description>Quartz.NET46 JSON Serialization Support</Description>
     <TargetFrameworks>$(TargetFullFrameworkVersion)</TargetFrameworks>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
+    <PackageId>Quartz46.Serialization.Json</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quartz\Quartz.csproj" />

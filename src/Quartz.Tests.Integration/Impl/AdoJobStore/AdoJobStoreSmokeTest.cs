@@ -40,6 +40,7 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
             dbConnectionStrings["Oracle"] = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=xe)));User Id=system;Password=oracle;";
             dbConnectionStrings["SQLServer"] = TestConstants.SqlServerConnectionString;
             dbConnectionStrings["SQLServerMOT"] = TestConstants.SqlServerConnectionStringMOT;
+            dbConnectionStrings["SQLServerCe"] = @"Data Source=C:\Development\quartznet.sdf;Persist Security Info=False;";
             dbConnectionStrings["MySQL"] = "Server = localhost; Database = quartznet; Uid = quartznet; Pwd = quartznet";
             dbConnectionStrings["PostgreSQL"] = "Server=127.0.0.1;Port=5432;Userid=quartznet;Password=quartznet;Pooling=true;MinPoolSize=1;MaxPoolSize=20;Timeout=15;SslMode=Disable;Database=quartznet";
             dbConnectionStrings["SQLite"] = "Data Source=test.db;Version=3;";
@@ -69,7 +70,7 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
         {
             var properties = new NameValueCollection
             {
-                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlServerDelegate).AssemblyQualifiedNameWithoutVersion()
+                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlCeDelegate).AssemblyQualifiedNameWithoutVersion()
             };
             return RunAdoJobStoreTest(TestConstants.DefaultSqlServerProvider, "SQLServer", serializerType, properties);
         }
@@ -81,10 +82,19 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
         {
             var properties = new NameValueCollection
             {
-                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlServerDelegate).AssemblyQualifiedNameWithoutVersion(),
+                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlCeDelegate).AssemblyQualifiedNameWithoutVersion(),
                 ["quartz.jobStore.lockHandler.type"] = typeof(Quartz.Impl.AdoJobStore.UpdateLockRowSemaphoreMOT).AssemblyQualifiedNameWithoutVersion()
             };
             return RunAdoJobStoreTest(TestConstants.DefaultSqlServerProvider, "SQLServerMOT", serializerType, properties);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetSerializerTypes))]
+        public Task TestSqlServerCe400(string serializerType)
+        {
+            NameValueCollection properties = new NameValueCollection();
+            properties["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.SqlServerDelegate, Quartz";
+            return RunAdoJobStoreTest("SqlServerCe", "SQLServerCe", serializerType, properties);
         }
 
         [Test]

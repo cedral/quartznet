@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyTitle>Quartz.NET</AssemblyTitle>
+    <AssemblyTitle>Quartz.NET46</AssemblyTitle>
     <TargetFrameworks>$(TargetFullFrameworkVersion)</TargetFrameworks>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
+    <PackageId>Quartz46</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="quartz.config;Impl\AdoJobStore\Common\dbproviders.properties;Impl\AdoJobStore\Common\dbproviders.netstandard.properties;Xml\job_scheduling_data_2_0.xsd" />

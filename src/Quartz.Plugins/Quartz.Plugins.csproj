@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyTitle>Quartz.NET Plugins</AssemblyTitle>
+    <AssemblyTitle>Quartz.NET46 Plugins</AssemblyTitle>
     <TargetFrameworks>$(TargetFullFrameworkVersion)</TargetFrameworks>
     <RootNamespace>Quartz</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
+    <PackageId>Quartz46.Plugins</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs" />
