@@ -10,8 +10,8 @@ namespace Quartz
             SqlServerUser = Environment.GetEnvironmentVariable("MSSQL_USER") ?? "sa";
             SqlServerPassword = Environment.GetEnvironmentVariable("MSSQL_PASSWORD") ?? "Quartz!DockerP4ss";
             // we cannot use trusted connection as it's not available for Linux provider
-            SqlServerConnectionString = $"Server=localhost;Database=quartznet;User Id={SqlServerUser};Password={SqlServerPassword};";
-            SqlServerConnectionStringMOT = $"Server=localhost,1444;Database=quartznet;User Id={SqlServerUser};Password={SqlServerPassword};";
+            SqlServerConnectionString = $"Server=localhost;Database=quartznet;Integrated Security=true;";
+            SqlServerConnectionStringMOT = $"Server=localhost;Database=quartznetMOT;Integrated Security=true;";
         }
 
         public static string SqlServerUser { get; }

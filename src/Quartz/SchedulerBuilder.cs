@@ -351,6 +351,20 @@ namespace Quartz
             return adoProviderOptions;
         }
 
+        public static SchedulerBuilder.AdoProviderOptions UseSqlServerCe(
+            this SchedulerBuilder.PersistentStoreOptions options,
+            Action<SchedulerBuilder.AdoProviderOptions> configurer)
+        {
+            options.SetProperty("quartz.jobStore.driverDelegateType", typeof(SqlCeDelegate).AssemblyQualifiedNameWithoutVersion());
+            options.SetProperty("quartz.jobStore.dataSource", SchedulerBuilder.AdoProviderOptions.DefaultDataSourceName);
+            options.SetProperty($"quartz.dataSource.{SchedulerBuilder.AdoProviderOptions.DefaultDataSourceName}.provider", "SqlServerCe");
+
+            var adoProviderOptions = new SchedulerBuilder.AdoProviderOptions(options);
+            configurer.Invoke(adoProviderOptions);
+
+            return adoProviderOptions;
+        }
+
         public static SchedulerBuilder.AdoProviderOptions UsePostgres(
             this SchedulerBuilder.PersistentStoreOptions options,
             Action<SchedulerBuilder.AdoProviderOptions> configurer)

@@ -70,7 +70,7 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
         {
             var properties = new NameValueCollection
             {
-                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlCeDelegate).AssemblyQualifiedNameWithoutVersion()
+                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlServerDelegate).AssemblyQualifiedNameWithoutVersion(),
             };
             return RunAdoJobStoreTest(TestConstants.DefaultSqlServerProvider, "SQLServer", serializerType, properties);
         }
@@ -82,7 +82,7 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
         {
             var properties = new NameValueCollection
             {
-                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlCeDelegate).AssemblyQualifiedNameWithoutVersion(),
+                ["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlServerDelegate).AssemblyQualifiedNameWithoutVersion(),
                 ["quartz.jobStore.lockHandler.type"] = typeof(Quartz.Impl.AdoJobStore.UpdateLockRowSemaphoreMOT).AssemblyQualifiedNameWithoutVersion()
             };
             return RunAdoJobStoreTest(TestConstants.DefaultSqlServerProvider, "SQLServerMOT", serializerType, properties);
@@ -93,7 +93,7 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
         public Task TestSqlServerCe400(string serializerType)
         {
             NameValueCollection properties = new NameValueCollection();
-            properties["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.SqlServerDelegate, Quartz";
+            properties["quartz.jobStore.driverDelegateType"] = typeof(Quartz.Impl.AdoJobStore.SqlCeDelegate).AssemblyQualifiedNameWithoutVersion();
             return RunAdoJobStoreTest("SqlServerCe", "SQLServerCe", serializerType, properties);
         }
 
@@ -321,6 +321,7 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
             }
             properties["quartz.dataSource.default.connectionString"] = connectionString;
             properties["quartz.dataSource.default.provider"] = TestConstants.DefaultSqlServerProvider;
+            properties["quartz.jobStore.lockHandler.type"] = typeof(Quartz.Impl.AdoJobStore.UpdateLockRowSemaphore).AssemblyQualifiedNameWithoutVersion();
 
             // First we must get a reference to a scheduler
             ISchedulerFactory sf = new StdSchedulerFactory(properties);
@@ -337,8 +338,8 @@ namespace Quartz.Tests.Integration.Impl.AdoJobStore
 
                     for (int i = 0; i < 100000; ++i)
                     {
-                        ITrigger trigger = new SimpleTriggerImpl("calendarsTrigger", "test", SimpleTriggerImpl.RepeatIndefinitely, TimeSpan.FromSeconds(1));
-                        JobDetailImpl jd = new JobDetailImpl("testJob", "test", typeof(NoOpJob));
+                        ITrigger trigger = new SimpleTriggerImpl("calendarsTrigger" + i.ToString(), "test", SimpleTriggerImpl.RepeatIndefinitely, TimeSpan.FromSeconds(1));
+                        JobDetailImpl jd = new JobDetailImpl("testJob" + i.ToString(), "test", typeof(NoOpJob));
                         await sched.ScheduleJob(jd, trigger);
                     }
                 }

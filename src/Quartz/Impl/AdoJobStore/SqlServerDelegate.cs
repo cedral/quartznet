@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Quartz.Impl.AdoJobStore
 {
-    class SqlServerDelegate : SqlCeDelegate
+    public class SqlServerDelegate : SqlCeDelegate
     {
         public override void AddCommandParameter(
             DbCommand cmd,
